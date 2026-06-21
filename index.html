@@ -17,13 +17,57 @@
     padding: 1rem;
     color: #eee;
   }
-  h1 { font-size: 1.6rem; font-weight: 600; letter-spacing: 0.08em; margin-bottom: 1rem; color: #e2c97e; }
-  #game-wrapper { display: flex; flex-direction: column; align-items: center; gap: 0.75rem; }
+  h1 { font-size: 1.6rem; font-weight: 600; letter-spacing: 0.08em; margin-bottom: 0.5rem; color: #e2c97e; }
+  #game-wrapper { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; }
 
+  /* ── MENU PILIHAN WAKTU (TIME CONTROL) ── */
+  #time-control-menu {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+    max-width: 490px;
+  }
+  .time-btn {
+    background: #252529;
+    border: 1px solid #3f3f46;
+    color: #d4d4d8;
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    transition: all 0.2s ease;
+  }
+  .time-btn:hover {
+    background: #27272a;
+    border-color: #52525b;
+    color: #fff;
+  }
+  .time-btn.selected {
+    background: #052e16;
+    border: 1px solid #10b981;
+    color: #10b981;
+  }
+
+  /* ── STATUS BAR & TIMER ATAS (HITAM) ── */
+  #top-bar-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 472px;
+    gap: 0.75rem;
+    margin-bottom: 0.25rem;
+  }
   #status-bar {
     display: flex; align-items: center; gap: 1rem;
-    background: #16213e; border: 1px solid #2a2a4a; border-radius: 10px;
-    padding: 0.5rem 1.25rem; font-size: 0.95rem; min-width: 340px;
+    background: #16213e; border: 1px solid #2a2a4a; border-radius: 8px;
+    padding: 0.5rem 1rem; font-size: 0.95rem; flex-grow: 1;
     justify-content: space-between;
   }
   #turn-indicator { display: flex; align-items: center; gap: 0.5rem; font-weight: 600; }
@@ -31,17 +75,39 @@
     width: 14px; height: 14px; border-radius: 50%; border: 2px solid #555;
     transition: background 0.25s, border-color 0.25s;
   }
-  #game-message { font-size: 0.85rem; color: #e2c97e; font-style: italic; max-width: 200px; text-align: right; }
+  #game-message { font-size: 0.85rem; color: #e2c97e; font-style: italic; text-align: right; }
 
+  /* ── CHESS TIMER DIGITAL ── */
+  .chess-timer {
+    background: #16213e; border: 1px solid #2a2a4a; padding: 0.45rem 1rem; border-radius: 8px;
+    font-family: monospace; font-size: 1.25rem; font-weight: bold; min-width: 90px; text-align: center; color: #eee;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  }
+  .chess-timer.active { border-color: #e2c97e; color: #e2c97e; box-shadow: 0 0 10px rgba(226, 201, 126, 0.4); }
+  .chess-timer.low-time { color: #e74c3c; border-color: #e74c3c; animation: blink 1s infinite; }
+
+  /* ── CONTROLLER BAWAH (PUTIH) ── */
+  #bottom-bar-container {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    max-width: 472px;
+    margin-top: 0.25rem;
+  }
+
+  @keyframes blink { 50% { opacity: 0.6; } }
+
+  /* ── LABELS & NOTASI (2 SISI) ── */
   .coords-row { display: flex; align-items: stretch; }
   .rank-labels {
     display: flex; flex-direction: column; justify-content: space-around;
-    color: #888; font-size: 0.72rem; font-weight: 600; width: 20px; align-items: center;
+    color: #888; font-size: 0.75rem; font-weight: 600; width: 20px; align-items: center;
   }
   .files-row {
     display: flex; justify-content: space-around;
-    color: #888; font-size: 0.72rem; font-weight: 600;
+    color: #888; font-size: 0.75rem; font-weight: 600;
     margin-left: 20px;
+    margin-top: 4px;
   }
 
   /* ── BOARD ── */
@@ -96,36 +162,40 @@
     border-radius: 50%;
   }
 
-  /* ── PIECE ── */
+  /* ── PIECE (SOLID / BLOK PADAT) ── */
   .piece {
-    font-size: calc(var(--board-size, 472px) / 8 * 0.82);
+    font-size: calc(var(--board-size, 472px) / 8 * 0.85);
     line-height: 1;
     pointer-events: none;
     z-index: 1;
     display: flex; align-items: center; justify-content: center;
     width: 100%; height: 100%;
-    filter: drop-shadow(0 1px 2px rgba(0,0,0,0.45));
   }
-  .piece.white-piece { color: #fff; }
-  .piece.black-piece { color: #1c1c1c; }
+  /* Modifikasi CSS agar bidak putih menggunakan karakter isi padat tapi diwarnai putih bersih */
+  .piece.white-piece { 
+    color: #ffffff; 
+    filter: drop-shadow(0 2px 3px rgba(0,0,0,0.6)) drop-shadow(0 0 1px rgba(0,0,0,0.8));
+  }
+  .piece.black-piece { 
+    color: #1a1a1a; 
+    filter: drop-shadow(0 1px 2px rgba(0,0,0,0.5));
+  }
 
   /* ── FLYING PIECE ── */
   #flying-piece {
     position: fixed;
     pointer-events: none;
     z-index: 9999;
-    font-size: calc(var(--board-size, 472px) / 8 * 0.82);
+    font-size: calc(var(--board-size, 472px) / 8 * 0.85);
     line-height: 1;
     display: none;
-    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.5));
-    transition: left 0.22s cubic-bezier(0.4,0,0.2,1), top 0.22s cubic-bezier(0.4,0,0.2,1);
     will-change: left, top;
   }
-  #flying-piece.white-piece { color: #fff; }
-  #flying-piece.black-piece { color: #1c1c1c; }
+  #flying-piece.white-piece { color: #ffffff; filter: drop-shadow(0 3px 5px rgba(0,0,0,0.6)); }
+  #flying-piece.black-piece { color: #1a1a1a; filter: drop-shadow(0 3px 5px rgba(0,0,0,0.5)); }
 
   /* ── BUTTONS ── */
-  #btn-row { display: flex; gap: 0.75rem; }
+  #btn-row { display: flex; gap: 0.75rem; margin-top: 0.5rem; }
   button {
     background: #16213e; border: 1px solid #2a2a4a; color: #ccc;
     border-radius: 8px; padding: 0.4rem 1rem;
@@ -176,28 +246,40 @@
 <body>
 <h1>♟ Chess</h1>
 <div id="game-wrapper">
-  <div id="status-bar">
-    <div id="turn-indicator">
-      <div id="turn-dot"></div>
-      <span id="turn-text">Giliran: Putih</span>
-    </div>
-    <div id="game-message"></div>
+  
+  <div id="time-control-menu">
+    <button class="time-btn" data-time="none">No Timer</button>
+    <button class="time-btn" data-time="60">🕒 1 min</button>
+    <button class="time-btn selected" data-time="180">🕒 3 min</button>
+    <button class="time-btn" data-time="300">🕒 5 min</button>
+    <button class="time-btn" data-time="600">🕒 10 min</button>
+    <button class="time-btn" data-time="900" data-inc="10">🕒 15+10</button>
+    <button class="time-btn" data-time="1800">🕒 30 min</button>
   </div>
 
-  <div class="files-row" id="files-top">
-    <span>a</span><span>b</span><span>c</span><span>d</span>
-    <span>e</span><span>f</span><span>g</span><span>h</span>
+  <div id="top-bar-container">
+    <div id="status-bar">
+      <div id="turn-indicator">
+        <div id="turn-dot"></div>
+        <span id="turn-text">Giliran: Putih</span>
+      </div>
+      <div id="game-message"></div>
+    </div>
+    <div id="timer-b" class="chess-timer">03:00</div>
   </div>
 
   <div class="coords-row">
     <div class="rank-labels" id="ranks-left"></div>
     <div id="board"></div>
-    <div class="rank-labels" id="ranks-right"></div>
   </div>
 
   <div class="files-row" id="files-bottom">
     <span>a</span><span>b</span><span>c</span><span>d</span>
     <span>e</span><span>f</span><span>g</span><span>h</span>
+  </div>
+
+  <div id="bottom-bar-container">
+    <div id="timer-w" class="chess-timer">03:00</div>
   </div>
 
   <div id="btn-row">
@@ -225,7 +307,7 @@
 
 <script>
 // ═══════════════════════════════════════════════════
-//  MODEL  –  Pure game logic, zero DOM dependency
+//  MODEL  –  Pure game logic
 // ═══════════════════════════════════════════════════
 
 const PIECE = { PAWN:'P', KNIGHT:'N', BISHOP:'B', ROOK:'R', QUEEN:'Q', KING:'K' };
@@ -252,16 +334,24 @@ function cloneBoard(board) {
 }
 
 class GameState {
-  constructor() { this.reset(); }
+  constructor() { 
+    this.baseTime = 180; 
+    this.increment = 0;
+    this.reset(); 
+  }
 
   reset() {
-    this.board       = initBoard();
-    this.turn        = WHITE;
-    this.castling    = { w:{k:true,q:true}, b:{k:true,q:true} };
-    this.enPassant   = null;
-    this.status      = 'playing'; 
-    this.lastMove    = null;
+    this.board        = initBoard();
+    this.turn         = WHITE;
+    this.castling     = { w:{k:true,q:true}, b:{k:true,q:true} };
+    this.enPassant    = null;
+    this.status       = 'playing'; 
+    this.lastMove     = null;
     this.promotionPending = null;
+    
+    this.time         = { w: this.baseTime, b: this.baseTime };
+    this.timerStarted = false;
+    this.isNoTimer    = this.baseTime === "none";
   }
 
   inBounds(r,c) { return r>=0 && r<8 && c>=0 && c<8; }
@@ -444,6 +534,14 @@ class GameState {
       return 'promotion_pending';
     }
 
+    if (this.timerStarted && !this.isNoTimer && this.increment > 0) {
+      this.time[this.turn] += this.increment;
+    }
+
+    if (!this.timerStarted) {
+      this.timerStarted = true;
+    }
+
     if (piece.type === PIECE.KING) {
       this.castling[this.turn].k = false;
       this.castling[this.turn].q = false;
@@ -488,11 +586,12 @@ class GameState {
 }
 
 // ═══════════════════════════════════════════════════
-//  VIEW / CONTROLLER  –  DOM rendering + input
+//  VIEW / CONTROLLER
 // ═══════════════════════════════════════════════════
 
+// MENGGUNAKAN UNICODE BLOK PADAT UNTUK KEDUA SISI (PUTIH & HITAM)
 const UNICODE = {
-  w: {K:'♔',Q:'♕',R:'♖',B:'♗',N:'♘',P:'♙'},
+  w: {K:'♚',Q:'♛',R:'♜',B:'♝',N:'♞',P:'♟'},
   b: {K:'♚',Q:'♛',R:'♜',B:'♝',N:'♞',P:'♟'},
 };
 
@@ -503,23 +602,98 @@ class ChessUI {
     this.legalTargets = [];
     this.flipped      = false;
     this.animating    = false;
+    this.clockInterval = null; 
 
     this.flyEl = document.getElementById('flying-piece');
     this.buildBoard();
     this.bindEvents();
+    this.setupTimeControlMenu();
+    this.startClockLoop();
     this.render();
   }
 
-  buildRanks() {
-    ['ranks-left','ranks-right'].forEach(id => {
-      const el = document.getElementById(id);
-      el.innerHTML = '';
-      for (let r=0;r<8;r++) {
-        const s = document.createElement('span');
-        s.textContent = this.flipped ? r+1 : 8-r;
-        el.appendChild(s);
-      }
+  setupTimeControlMenu() {
+    const buttons = document.querySelectorAll('.time-btn');
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (this.game.timerStarted && this.game.status === 'playing') {
+          alert("Selesaikan game saat ini sebelum mengubah kontrol waktu!");
+          return;
+        }
+        buttons.forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+
+        const timeVal = btn.dataset.time;
+        const incVal = btn.dataset.inc ? parseInt(btn.dataset.inc) : 0;
+
+        this.game.baseTime = timeVal === "none" ? "none" : parseInt(timeVal);
+        this.game.increment = incVal;
+        
+        this.resetGame();
+      });
     });
+  }
+
+  startClockLoop() {
+    clearInterval(this.clockInterval);
+    this.clockInterval = setInterval(() => {
+      const g = this.game;
+      if (g.isNoTimer) return;
+      if (g.status !== 'playing' && g.status !== 'check') return;
+      if (!g.timerStarted) return;
+
+      g.time[g.turn]--;
+
+      if (g.time[g.turn] <= 0) {
+        g.time[g.turn] = 0;
+        g.status = 'timeout';
+        this.render();
+        this.showEndGame(opponent(g.turn), true);
+        clearInterval(this.clockInterval);
+      } else {
+        this.renderTimers();
+      }
+    }, 1000);
+  }
+
+  formatTime(seconds) {
+    if (seconds === "none" || this.game.isNoTimer) return "--:--";
+    const min = Math.floor(seconds / 60);
+    const sec = seconds % 60;
+    return `${min.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')}`;
+  }
+
+  renderTimers() {
+    const g = this.game;
+    const elW = document.getElementById('timer-w');
+    const elB = document.getElementById('timer-b');
+
+    elW.textContent = this.formatTime(g.time.w);
+    elB.textContent = this.formatTime(g.time.b);
+
+    const activeTimerW = g.turn === WHITE && g.timerStarted && g.status !== 'timeout';
+    const activeTimerB = g.turn === BLACK && g.timerStarted && g.status !== 'timeout';
+
+    elW.className = "chess-timer";
+    elB.className = "chess-timer";
+
+    if (!g.isNoTimer) {
+      elW.classList.toggle('active', activeTimerW);
+      elB.classList.toggle('active', activeTimerB);
+
+      elW.classList.toggle('low-time', g.time.w <= 30);
+      elB.classList.toggle('low-time', g.time.b <= 30);
+    }
+  }
+
+  buildRanks() {
+    const el = document.getElementById('ranks-left');
+    el.innerHTML = '';
+    for (let r=0;r<8;r++) {
+      const s = document.createElement('span');
+      s.textContent = this.flipped ? r+1 : 8-r;
+      el.appendChild(s);
+    }
   }
 
   buildBoard() {
@@ -538,8 +712,11 @@ class ChessUI {
       }
     }
     this.buildRanks();
+    
+    // Sesuaikan ulang teks a-h agar simetris lebarnya dengan papan catur
     const bw = document.getElementById('board').offsetWidth || 472;
-    document.querySelectorAll('.files-row').forEach(el => el.style.width = bw+'px');
+    const filesContainer = document.getElementById('files-bottom');
+    if (filesContainer) filesContainer.style.width = bw + 'px';
   }
 
   getSquareEl(r, c) {
@@ -634,15 +811,21 @@ class ChessUI {
     const turnDot  = document.getElementById('turn-dot');
     const msg      = document.getElementById('game-message');
 
+    this.renderTimers();
+
     if (g.status === 'checkmate') {
       const winner = opponent(g.turn);
       turnText.textContent = (winner===WHITE ? 'Putih' : 'Hitam') + ' Menang';
       msg.textContent = 'Skakmat!';
-      this.showEndGame(winner);
+      this.showEndGame(winner, false);
     } else if (g.status === 'stalemate') {
       turnText.textContent = 'Seri';
       msg.textContent = 'Remis!';
-      this.showEndGame(null);
+      this.showEndGame(null, false);
+    } else if (g.status === 'timeout') {
+      const winner = opponent(g.turn);
+      turnText.textContent = (winner===WHITE ? 'Putih' : 'Hitam') + ' Menang';
+      msg.textContent = 'Waktu Habis!';
     } else {
       turnText.textContent = 'Giliran: ' + (g.turn===WHITE ? 'Putih' : 'Hitam');
       turnDot.style.background    = g.turn===WHITE ? '#fff' : '#222';
@@ -654,7 +837,7 @@ class ChessUI {
   async handleClick(r, c) {
     if (this.animating) return;
     const g = this.game;
-    if (g.status==='checkmate' || g.status==='stalemate') return;
+    if (g.status==='checkmate' || g.status==='stalemate' || g.status==='timeout') return;
 
     const clicked = g.board[r][c];
 
@@ -718,11 +901,15 @@ class ChessUI {
     overlay.classList.add('active');
   }
 
-  showEndGame(winner) {
+  showEndGame(winner, isTimeout = false) {
     const overlay  = document.getElementById('endgame-overlay');
     const title    = document.getElementById('endgame-title');
     const subtitle = document.getElementById('endgame-subtitle');
-    if (winner===WHITE) {
+    
+    if (isTimeout) {
+      title.textContent    = winner === WHITE ? '♔ Putih Menang!' : '♚ Hitam Menang!';
+      subtitle.textContent = `Waktu ${winner === WHITE ? 'Hitam' : 'Putih'} habis.`;
+    } else if (winner===WHITE) {
       title.textContent    = '♔ Putih Menang!';
       subtitle.textContent = 'Skakmat — Raja Hitam tidak bisa kabur.';
     } else if (winner===BLACK) {
@@ -735,19 +922,21 @@ class ChessUI {
     setTimeout(() => overlay.classList.add('active'), 500);
   }
 
+  resetGame() {
+    document.getElementById('endgame-overlay').classList.remove('active');
+    document.getElementById('promotion-overlay').classList.remove('active');
+    this.game.reset();
+    this.selected     = null;
+    this.legalTargets = [];
+    this.animating    = false;
+    this.flyEl.style.display = 'none';
+    this.startClockLoop(); 
+    this.render();
+  }
+
   bindEvents() {
-    const resetUI = () => {
-      document.getElementById('endgame-overlay').classList.remove('active');
-      document.getElementById('promotion-overlay').classList.remove('active');
-      this.game.reset();
-      this.selected     = null;
-      this.legalTargets = [];
-      this.animating    = false;
-      this.flyEl.style.display = 'none';
-      this.render();
-    };
-    document.getElementById('btn-new').addEventListener('click', resetUI);
-    document.getElementById('btn-restart').addEventListener('click', resetUI);
+    document.getElementById('btn-new').addEventListener('click', () => this.resetGame());
+    document.getElementById('btn-restart').addEventListener('click', () => this.resetGame());
 
     document.getElementById('btn-flip').addEventListener('click', () => {
       this.flipped      = !this.flipped;
